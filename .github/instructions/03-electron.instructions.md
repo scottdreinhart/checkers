@@ -1,7 +1,7 @@
 # Electron Instructions
 
 > **Scope**: Electron desktop app development, builds, preview, and platform-specific packaging.
-> Subordinate to `AGENTS.md` §5 (shell routing) and `01-build.instructions.md` for general build rules.
+> Subordinate to `AGENTS.md` §5 (shell routing).
 
 ---
 
@@ -50,8 +50,8 @@ Defined in `package.json` `"build"` key (electron-builder config):
 
 | Field | Value |
 |---|---|
-| `appId` | `com.scottreinhart.checkers` |
-| `productName` | `Checkers` |
+| `appId` | `com.scottreinhart.nim` |
+| `productName` | `Nim` |
 | `directories.output` | `release` |
 | `files` | `dist/**/*`, `electron/**/*` |
 

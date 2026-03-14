@@ -4,3 +4,4 @@
 
 export { ErrorBoundary } from './ErrorBoundary'
 export { OfflineIndicator } from './OfflineIndicator'
+export { SplashScreen } from './SplashScreen'

@@ -2,7 +2,11 @@
  * Game constants — magic numbers & config extracted to a single source of truth.
  */
 
-import type { GameStats } from './types'
+import type { GameStats, Player } from './types'
+
+export const BOARD_SIZE = 8
+export const HUMAN_PLAYER: Player = 'red'
+export const CPU_PLAYER: Player = 'black'
 
 export const CPU_DELAY_MS = 400
 
