@@ -6,11 +6,17 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { getLayerStack, layerStackToCssVars } from '../domain/layers.ts'
 import { getBackgroundCssValue, preloadAllSprites } from '../domain/sprites.ts'
-import { COLOR_THEMES, DEFAULT_SETTINGS } from '../domain/themes.ts'
-import type { ThemeSettings } from '../domain/types.ts'
+import { COLORBLIND_MODES, COLOR_THEMES, DEFAULT_SETTINGS, MODES } from '../domain/themes.ts'
+import type { ColorblindMode, ColorTheme, Mode } from '../domain/themes.ts'
 import { load, save } from './storageService.ts'
 
 const STORAGE_KEY = 'nim-theme-settings'
+
+interface ThemeSettings {
+  colorTheme: ColorTheme
+  mode: Mode
+  colorblind: ColorblindMode
+}
 
 /**
  * Theme color palettes — maps theme ID to color definitions.
@@ -116,10 +122,8 @@ const preloadTheme = async (themeId: string): Promise<void> => {
 }
 
 const preloadAllThemes = (): void => {
-  COLOR_THEMES.forEach(({ id }) => {
-    if (id !== 'classic') {
-      preloadTheme(id).catch(() => {})
-    }
+  COLOR_THEMES.forEach((id) => {
+    preloadTheme(id).catch(() => {})
   })
 }
 
@@ -192,9 +196,15 @@ const applyToDOM = (settings: ThemeSettings): void => {
 
 export interface UseThemeReturn {
   settings: ThemeSettings
-  setColorTheme: (id: string) => void
-  setMode: (mode: string) => void
-  setColorblind: (id: string) => void
+  colorTheme: ColorTheme
+  mode: Mode
+  colorblind: ColorblindMode
+  colorThemes: readonly ColorTheme[]
+  modes: readonly Mode[]
+  colorblindModes: readonly ColorblindMode[]
+  setColorTheme: (id: ColorTheme) => void
+  setMode: (mode: Mode) => void
+  setColorblind: (id: ColorblindMode) => void
 }
 
 const useTheme = (): UseThemeReturn => {
@@ -211,19 +221,30 @@ const useTheme = (): UseThemeReturn => {
     saveSettings(settings)
   }, [settings])
 
-  const setColorTheme = useCallback((id: string) => {
+  const setColorTheme = useCallback((id: ColorTheme) => {
     setSettings((prev) => ({ ...prev, colorTheme: id }))
   }, [])
 
-  const setMode = useCallback((mode: string) => {
+  const setMode = useCallback((mode: Mode) => {
     setSettings((prev) => ({ ...prev, mode }))
   }, [])
 
-  const setColorblind = useCallback((id: string) => {
+  const setColorblind = useCallback((id: ColorblindMode) => {
     setSettings((prev) => ({ ...prev, colorblind: id }))
   }, [])
 
-  return { settings, setColorTheme, setMode, setColorblind }
+  return {
+    settings,
+    colorTheme: settings.colorTheme,
+    mode: settings.mode,
+    colorblind: settings.colorblind,
+    colorThemes: COLOR_THEMES,
+    modes: MODES,
+    colorblindModes: COLORBLIND_MODES,
+    setColorTheme,
+    setMode,
+    setColorblind,
+  }
 }
 
 export default useTheme

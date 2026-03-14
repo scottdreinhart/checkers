@@ -20,7 +20,7 @@ export type {
 } from '@/domain/responsive'
 export { useSoundEffects } from './useSoundEffects'
 export { useStats } from './useStats'
-export { useTheme } from './useTheme'
+export { default as useTheme } from './useTheme'
 export { useMediaQuery } from './useMediaQuery'
 export { useWindowSize } from './useWindowSize'
 export { useSwipe } from './useSwipe'
